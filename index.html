@@ -524,12 +524,46 @@ async function handleSetup() {
   const dob   = document.getElementById('setupDob').value;
   const errEl = document.getElementById('setupError');
   const btn   = document.getElementById('setupBtn');
+
   errEl.classList.remove('visible');
   if (!name || !dob) { setErr(errEl, 'Please fill in both fields'); return; }
+
   btn.disabled = true; btn.textContent = 'Setting up...';
-  const { data: baby, error } = await db.from('babies').insert({ name, date_of_birth: dob }).select().single();
-  if (error) { setErr(errEl, 'Something went wrong. Try again.'); btn.disabled = false; btn.textContent = 'Start Tracking →'; return; }
-  await db.from('baby_access').insert({ baby_id: baby.id, user_id: currentUser.id, role: 'owner' });
+
+  // Refresh session before inserting
+  const { data: { session }, error: sessionError } = await db.auth.getSession();
+  if (!session) {
+    setErr(errEl, 'Session expired. Please log in again.');
+    btn.disabled = false; btn.textContent = 'Start Tracking →';
+    showScreen('loginScreen');
+    return;
+  }
+  currentUser = session.user;
+
+  const { data: baby, error } = await db
+    .from('babies')
+    .insert({ name, date_of_birth: dob })
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Baby insert error:', error);
+    setErr(errEl, `Error: ${error.message}`);
+    btn.disabled = false; btn.textContent = 'Start Tracking →';
+    return;
+  }
+
+  const { error: accessError } = await db
+    .from('baby_access')
+    .insert({ baby_id: baby.id, user_id: currentUser.id, role: 'owner' });
+
+  if (accessError) {
+    console.error('Access insert error:', accessError);
+    setErr(errEl, `Error: ${accessError.message}`);
+    btn.disabled = false; btn.textContent = 'Start Tracking →';
+    return;
+  }
+
   btn.disabled = false; btn.textContent = 'Start Tracking →';
   currentBaby = baby; logs = [];
   showApp();
