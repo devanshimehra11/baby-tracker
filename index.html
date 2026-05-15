@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,12 +37,9 @@
   .screen { display: none; min-height: 100vh; flex-direction: column; }
   .screen.active { display: flex; }
 
-  /* AUTH */
   .auth-screen {
-    align-items: center;
-    justify-content: center;
-    padding: 40px 28px;
-    background: var(--warm-white);
+    align-items: center; justify-content: center;
+    padding: 40px 28px; background: var(--warm-white);
   }
 
   .auth-blob {
@@ -49,8 +47,7 @@
     background: linear-gradient(135deg, var(--blush), var(--lavender));
     border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 44px;
-    margin-bottom: 28px;
+    font-size: 44px; margin-bottom: 28px;
     animation: blobFloat 4s ease-in-out infinite;
   }
 
@@ -59,155 +56,77 @@
     50% { transform: translateY(-8px); border-radius: 45% 55% 40% 60% / 60% 40% 55% 45%; }
   }
 
-  .auth-title {
-    font-family: 'Fraunces', serif;
-    font-size: 30px; font-weight: 300;
-    text-align: center; margin-bottom: 6px;
-  }
-
-  .auth-sub {
-    font-size: 14px; color: var(--mid);
-    text-align: center; margin-bottom: 40px; font-weight: 300;
-  }
+  .auth-title { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 300; text-align: center; margin-bottom: 6px; }
+  .auth-sub { font-size: 14px; color: var(--mid); text-align: center; margin-bottom: 40px; font-weight: 300; }
 
   .input-group { width: 100%; margin-bottom: 16px; }
-
-  .input-group label {
-    display: block; font-size: 11px; font-weight: 500;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--mid); margin-bottom: 8px;
-  }
-
-  .input-group input {
-    width: 100%; padding: 16px 20px;
-    border: 1.5px solid #E8E0D8; border-radius: 16px;
-    background: var(--card-bg);
-    font-family: 'DM Sans', sans-serif; font-size: 16px;
-    color: var(--deep); outline: none; transition: border-color 0.2s;
-  }
-
+  .input-group label { display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); margin-bottom: 8px; }
+  .input-group input { width: 100%; padding: 16px 20px; border: 1.5px solid #E8E0D8; border-radius: 16px; background: var(--card-bg); font-family: 'DM Sans', sans-serif; font-size: 16px; color: var(--deep); outline: none; transition: border-color 0.2s; }
   .input-group input:focus { border-color: var(--blush); }
 
   .error-msg { font-size: 12px; color: var(--error); margin-top: 6px; display: none; }
   .error-msg.visible { display: block; }
 
-  .btn-primary {
-    width: 100%; padding: 18px;
-    background: var(--deep); color: var(--cream);
-    border: none; border-radius: 18px;
-    font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500;
-    cursor: pointer; margin-top: 8px;
-    transition: transform 0.15s, opacity 0.15s;
-  }
+  .btn-primary { width: 100%; padding: 18px; background: var(--deep); color: var(--cream); border: none; border-radius: 18px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 8px; transition: transform 0.15s, opacity 0.15s; }
   .btn-primary:active { transform: scale(0.97); }
   .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
   .auth-switch { margin-top: 24px; font-size: 14px; color: var(--mid); text-align: center; }
   .auth-switch span { color: var(--deep); font-weight: 500; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 
-  /* LOADING */
   #loadingScreen { align-items: center; justify-content: center; background: var(--warm-white); }
-  .loading-blob {
-    width: 80px; height: 80px;
-    background: linear-gradient(135deg, var(--blush), var(--lavender));
-    border-radius: 50%;
-    animation: loadPulse 1.2s ease-in-out infinite;
-  }
+  .loading-blob { width: 80px; height: 80px; background: linear-gradient(135deg, var(--blush), var(--lavender)); border-radius: 50%; animation: loadPulse 1.2s ease-in-out infinite; }
   @keyframes loadPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.15);opacity:0.7} }
 
-  /* MAIN APP */
   #appScreen { background: var(--cream); padding-bottom: 80px; }
 
-  .app-header {
-    padding: 52px 24px 20px;
-    background: var(--warm-white);
-    border-bottom: 1px solid #EDE7DF;
-  }
-
+  .app-header { padding: 52px 24px 20px; background: var(--warm-white); border-bottom: 1px solid #EDE7DF; }
   .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
-
   .baby-name { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 300; }
   .baby-age { font-size: 13px; color: var(--mid); margin-top: 2px; font-weight: 300; }
 
-  .logout-btn {
-    background: none; border: 1.5px solid #E8E0D8;
-    border-radius: 10px; padding: 8px 14px;
-    font-family: 'DM Sans', sans-serif; font-size: 12px;
-    color: var(--mid); cursor: pointer; margin-top: 4px;
-  }
+  .header-right { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+
+  .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sage); opacity: 0; transition: opacity 0.3s; flex-shrink: 0; }
+  .sync-dot.visible { opacity: 1; animation: blink 1s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .logout-btn { background: none; border: 1.5px solid #E8E0D8; border-radius: 10px; padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--mid); cursor: pointer; }
 
   .today-summary { display: flex; gap: 12px; margin-top: 16px; }
-
-  .summary-chip {
-    flex: 1; background: var(--card-bg);
-    border-radius: 14px; padding: 12px 10px;
-    text-align: center; box-shadow: var(--shadow);
-  }
+  .summary-chip { flex: 1; background: var(--card-bg); border-radius: 14px; padding: 12px 10px; text-align: center; box-shadow: var(--shadow); }
   .chip-val { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 400; }
   .chip-label { font-size: 10px; color: var(--light); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
 
   .tracker-section { padding: 24px 20px 0; }
-
-  .section-label {
-    font-size: 11px; font-weight: 500;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--light); margin-bottom: 14px;
-  }
-
+  .section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); margin-bottom: 14px; }
   .big-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
 
-  .big-btn {
-    background: var(--card-bg); border: none; border-radius: 24px;
-    padding: 22px 10px 18px;
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
-    cursor: pointer; box-shadow: var(--shadow);
-    transition: transform 0.15s; position: relative; overflow: hidden;
-  }
+  .big-btn { background: var(--card-bg); border: none; border-radius: 24px; padding: 22px 10px 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.15s; position: relative; overflow: hidden; }
   .big-btn:active { transform: scale(0.95); }
   .big-btn.active-sleep { background: linear-gradient(145deg, #E8F4E8, #C8E4C8); }
-  .big-btn.active-feed  { background: linear-gradient(145deg, #FFF0E8, #FFD8C0); }
+  .big-btn.active-feed { background: linear-gradient(145deg, #FFF0E8, #FFD8C0); }
 
   .btn-icon { font-size: 32px; line-height: 1; }
   .btn-label { font-size: 12px; font-weight: 500; color: var(--mid); letter-spacing: 0.03em; }
   .btn-timer { font-family: 'Fraunces', serif; font-size: 15px; color: var(--deep); font-weight: 400; }
 
-  .pulse-ring {
-    position: absolute; top: 12px; right: 12px;
-    width: 8px; height: 8px; background: var(--sage);
-    border-radius: 50%; display: none;
-  }
+  .pulse-ring { position: absolute; top: 12px; right: 12px; width: 8px; height: 8px; background: var(--sage); border-radius: 50%; display: none; }
   .pulse-ring.visible { display: block; animation: pulseRing 1.5s ease-in-out infinite; }
   @keyframes pulseRing { 0%{box-shadow:0 0 0 0 rgba(168,196,162,0.6)} 70%{box-shadow:0 0 0 8px rgba(168,196,162,0)} 100%{box-shadow:0 0 0 0 rgba(168,196,162,0)} }
 
-  .sub-panel {
-    margin: 16px 20px 0; background: var(--card-bg);
-    border-radius: 20px; padding: 20px; box-shadow: var(--shadow);
-    display: none; animation: slideUp 0.25s ease;
-  }
+  .sub-panel { margin: 16px 20px 0; background: var(--card-bg); border-radius: 20px; padding: 20px; box-shadow: var(--shadow); display: none; animation: slideUp 0.25s ease; }
   .sub-panel.visible { display: block; }
   @keyframes slideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 
   .sub-panel-title { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 300; margin-bottom: 16px; }
-
   .option-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
 
-  .opt-btn {
-    flex: 1; min-width: 80px; padding: 14px 10px;
-    border: 1.5px solid #E8E0D8; border-radius: 14px;
-    background: transparent; font-family: 'DM Sans', sans-serif;
-    font-size: 14px; font-weight: 500; color: var(--mid);
-    cursor: pointer; transition: all 0.15s; text-align: center;
-  }
+  .opt-btn { flex: 1; min-width: 80px; padding: 14px 10px; border: 1.5px solid #E8E0D8; border-radius: 14px; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--mid); cursor: pointer; transition: all 0.15s; text-align: center; }
   .opt-btn:active, .opt-btn.selected { background: var(--deep); color: var(--cream); border-color: var(--deep); }
 
   .feed-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-
-  .side-btn {
-    padding: 18px 10px; border: 1.5px solid #E8E0D8; border-radius: 16px;
-    background: transparent; font-family: 'DM Sans', sans-serif;
-    font-size: 14px; font-weight: 500; color: var(--mid);
-    cursor: pointer; transition: all 0.15s; text-align: center;
-  }
+  .side-btn { padding: 18px 10px; border: 1.5px solid #E8E0D8; border-radius: 16px; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--mid); cursor: pointer; transition: all 0.15s; text-align: center; }
   .side-btn.active-side { background: linear-gradient(135deg, var(--blush), #F0A090); color: white; border-color: transparent; }
 
   .feed-timer-display { text-align: center; padding: 16px; background: var(--cream); border-radius: 14px; margin-top: 4px; }
@@ -215,58 +134,61 @@
   .feed-side-label { font-size: 12px; color: var(--mid); margin-top: 4px; }
 
   /* MODAL */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(44,40,37,0.5);
-    display: none; align-items: flex-end; justify-content: center;
-    z-index: 100; backdrop-filter: blur(4px);
-  }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(44,40,37,0.5); display: none; align-items: flex-end; justify-content: center; z-index: 100; backdrop-filter: blur(4px); }
   .modal-overlay.visible { display: flex; }
 
-  .modal-sheet {
-    background: var(--warm-white); border-radius: 28px 28px 0 0;
-    padding: 28px 24px 48px; width: 100%; max-width: 430px;
-    animation: sheetUp 0.3s ease;
-  }
+  .modal-sheet { background: var(--warm-white); border-radius: 28px 28px 0 0; padding: 28px 24px 48px; width: 100%; max-width: 430px; animation: sheetUp 0.3s ease; }
   @keyframes sheetUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
 
   .modal-handle { width: 40px; height: 4px; background: #D8D0C8; border-radius: 2px; margin: 0 auto 24px; }
   .modal-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 300; margin-bottom: 6px; }
-  .modal-sub { font-size: 13px; color: var(--mid); margin-bottom: 24px; }
+  .modal-sub { font-size: 13px; color: var(--mid); margin-bottom: 28px; }
 
-  .duration-editor { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 28px; }
+  /* SLIDER */
+  .slider-section { margin-bottom: 28px; }
 
-  .dur-btn {
-    width: 48px; height: 48px; border-radius: 50%;
-    border: 1.5px solid #E8E0D8; background: var(--card-bg);
-    font-size: 22px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+  .slider-value-display { text-align: center; margin-bottom: 16px; }
+  .dur-display { font-family: 'Fraunces', serif; font-size: 56px; font-weight: 300; color: var(--deep); line-height: 1; }
+  .dur-unit { font-size: 14px; color: var(--mid); margin-top: 4px; }
+
+  .slider-track { position: relative; padding: 8px 0; }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #E8E0D8;
+    outline: none;
+    cursor: pointer;
   }
-  .dur-btn:active { background: var(--deep); color: var(--cream); border-color: var(--deep); }
 
-  .dur-display { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 300; min-width: 120px; text-align: center; }
-  .dur-unit { font-size: 14px; color: var(--mid); text-align: center; margin-top: -8px; }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--deep);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(44,40,37,0.3);
+    transition: transform 0.15s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:active { transform: scale(1.2); }
+  input[type="range"]::-moz-range-thumb { width: 28px; height: 28px; border-radius: 50%; background: var(--deep); cursor: pointer; border: none; box-shadow: 0 2px 8px rgba(44,40,37,0.3); }
+
+  .slider-labels { display: flex; justify-content: space-between; margin-top: 8px; }
+  .slider-labels span { font-size: 11px; color: var(--light); }
 
   .modal-actions { display: flex; gap: 12px; }
-  .btn-cancel {
-    flex: 1; padding: 16px; border: 1.5px solid #E8E0D8; border-radius: 16px;
-    background: transparent; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--mid); cursor: pointer;
-  }
-  .btn-save {
-    flex: 2; padding: 16px; background: var(--deep); color: var(--cream);
-    border: none; border-radius: 16px; font-family: 'DM Sans', sans-serif;
-    font-size: 15px; font-weight: 500; cursor: pointer;
-  }
+  .btn-cancel { flex: 1; padding: 16px; border: 1.5px solid #E8E0D8; border-radius: 16px; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--mid); cursor: pointer; }
+  .btn-save { flex: 2; padding: 16px; background: var(--deep); color: var(--cream); border: none; border-radius: 16px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; }
 
-  /* LOG */
   .log-section { padding: 24px 20px 0; }
   .log-list { display: flex; flex-direction: column; gap: 8px; }
 
-  .log-item {
-    background: var(--card-bg); border-radius: 16px; padding: 14px 16px;
-    display: flex; align-items: center; gap: 14px;
-    box-shadow: 0 2px 12px rgba(44,40,37,0.05);
-    animation: fadeIn 0.2s ease;
-  }
+  .log-item { background: var(--card-bg); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; box-shadow: 0 2px 12px rgba(44,40,37,0.05); animation: fadeIn 0.2s ease; }
   @keyframes fadeIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
 
   .log-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
@@ -281,20 +203,7 @@
 
   .empty-log { text-align: center; padding: 32px 20px; color: var(--light); font-size: 14px; font-style: italic; font-family: 'Fraunces', serif; }
 
-  /* SAVING DOT */
-  .saving-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--sage); margin-left: 6px; vertical-align: middle; opacity: 0; transition: opacity 0.3s; }
-  .saving-dot.visible { opacity: 1; animation: blink 1s infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-  /* TOAST */
-  .toast {
-    position: fixed; bottom: 32px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--deep); color: var(--cream);
-    padding: 12px 24px; border-radius: 100px;
-    font-size: 14px; font-weight: 500; z-index: 200;
-    transition: transform 0.3s ease; white-space: nowrap; pointer-events: none;
-  }
+  .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--deep); color: var(--cream); padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 500; z-index: 200; transition: transform 0.3s ease; white-space: nowrap; pointer-events: none; }
   .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 </head>
@@ -363,10 +272,13 @@
   <div class="app-header">
     <div class="header-top">
       <div>
-        <div class="baby-name" id="headerName">—<span class="saving-dot" id="savingDot"></span></div>
+        <div class="baby-name" id="headerName">—</div>
         <div class="baby-age" id="headerAge">—</div>
       </div>
-      <button class="logout-btn" onclick="handleLogout()">Log out</button>
+      <div class="header-right">
+        <div class="sync-dot" id="syncDot" title="Syncing..."></div>
+        <button class="logout-btn" onclick="handleLogout()">Log out</button>
+      </div>
     </div>
     <div class="today-summary">
       <div class="summary-chip"><div class="chip-val" id="sumSleep">—</div><div class="chip-label">Sleep</div></div>
@@ -433,17 +345,19 @@
     <div class="modal-handle"></div>
     <div class="modal-title" id="modalTitle">Edit Duration</div>
     <div class="modal-sub" id="modalSub"></div>
-    <div class="duration-editor">
-      <button class="dur-btn" onclick="adjustDur(-1)">−</button>
-      <div>
+    <div class="slider-section">
+      <div class="slider-value-display">
         <div class="dur-display" id="durDisplay">15</div>
         <div class="dur-unit">minutes</div>
       </div>
-      <button class="dur-btn" onclick="adjustDur(1)">+</button>
+      <div class="slider-track">
+        <input type="range" id="durationSlider" min="1" max="240" value="15" oninput="onSliderChange(this.value)" />
+        <div class="slider-labels"><span>1m</span><span>1h</span><span>2h</span><span>4h</span></div>
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" onclick="saveModal()">Save</button>
+      <button class="btn-save" id="saveModalBtn" onclick="saveModal()">Save</button>
     </div>
   </div>
 </div>
@@ -453,7 +367,9 @@
 <script>
 const SUPABASE_URL = 'https://qyrmqthxzescdtyjhvpx.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5cm1xdGh4emVzY2R0eWpodnB4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3Njk4NTYsImV4cCI6MjA5NDM0NTg1Nn0.k-IsHZJTNLRKg0DRfxA7NiPf2ZtJOBLHzU1baTfghgQ';
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+  realtime: { params: { eventsPerSecond: 10 } }
+});
 
 let currentUser = null;
 let currentBaby = null;
@@ -462,6 +378,8 @@ let sleepStart = null, sleepInterval = null;
 let feedStart = null, feedSide = null, feedInterval = null;
 let activeFeedPanel = false, activeNappyPanel = false;
 let pendingEdit = null, editMinutes = 0;
+let realtimeChannel = null;
+let isSaving = false;
 
 // ── BOOT ──
 async function init() {
@@ -481,7 +399,6 @@ async function loadBaby() {
   else showScreen('setupScreen');
 }
 
-// ── SCREENS ──
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -524,52 +441,27 @@ async function handleSetup() {
   const dob   = document.getElementById('setupDob').value;
   const errEl = document.getElementById('setupError');
   const btn   = document.getElementById('setupBtn');
-
   errEl.classList.remove('visible');
   if (!name || !dob) { setErr(errEl, 'Please fill in both fields'); return; }
-
   btn.disabled = true; btn.textContent = 'Setting up...';
 
-  // Refresh session before inserting
-  const { data: { session }, error: sessionError } = await db.auth.getSession();
-  if (!session) {
-    setErr(errEl, 'Session expired. Please log in again.');
-    btn.disabled = false; btn.textContent = 'Start Tracking →';
-    showScreen('loginScreen');
-    return;
-  }
+  const { data: { session } } = await db.auth.getSession();
+  if (!session) { setErr(errEl, 'Session expired. Please log in again.'); btn.disabled=false; btn.textContent='Start Tracking →'; showScreen('loginScreen'); return; }
   currentUser = session.user;
 
-  const { data: baby, error } = await db
-    .from('babies')
-    .insert({ name, date_of_birth: dob })
-    .select()
-    .single();
+  const { data: baby, error } = await db.from('babies').insert({ name, date_of_birth: dob }).select().single();
+  if (error) { setErr(errEl, error.message); btn.disabled=false; btn.textContent='Start Tracking →'; return; }
 
-  if (error) {
-    console.error('Baby insert error:', error);
-    setErr(errEl, `Error: ${error.message}`);
-    btn.disabled = false; btn.textContent = 'Start Tracking →';
-    return;
-  }
+  const { error: accessError } = await db.from('baby_access').insert({ baby_id: baby.id, user_id: currentUser.id, role: 'owner' });
+  if (accessError) { setErr(errEl, accessError.message); btn.disabled=false; btn.textContent='Start Tracking →'; return; }
 
-  const { error: accessError } = await db
-    .from('baby_access')
-    .insert({ baby_id: baby.id, user_id: currentUser.id, role: 'owner' });
-
-  if (accessError) {
-    console.error('Access insert error:', accessError);
-    setErr(errEl, `Error: ${accessError.message}`);
-    btn.disabled = false; btn.textContent = 'Start Tracking →';
-    return;
-  }
-
-  btn.disabled = false; btn.textContent = 'Start Tracking →';
+  btn.disabled=false; btn.textContent='Start Tracking →';
   currentBaby = baby; logs = [];
   showApp();
 }
 
 async function handleLogout() {
+  if (realtimeChannel) { await db.removeChannel(realtimeChannel); realtimeChannel = null; }
   await db.auth.signOut();
   currentUser = null; currentBaby = null; logs = [];
   clearInterval(sleepInterval); clearInterval(feedInterval);
@@ -583,6 +475,7 @@ function setErr(el, msg) { el.textContent = msg; el.classList.add('visible'); }
 function showApp() {
   showScreen('appScreen');
   refreshHeader(); renderLogs(); updateSummary();
+  subscribeRealtime();
   const saved = localStorage.getItem(`sleepStart_${currentBaby.id}`);
   if (saved) {
     sleepStart = parseInt(saved);
@@ -604,6 +497,30 @@ function getAge(dob) {
   if (days < 7)  return `${days} day${days!==1?'s':''} old`;
   if (days < 31) { const w = Math.floor(days/7); return `${w} week${w!==1?'s':''} old`; }
   const m = Math.floor(days/30); return `${m} month${m!==1?'s':''} old`;
+}
+
+// ── REALTIME SYNC ──
+function subscribeRealtime() {
+  if (realtimeChannel) db.removeChannel(realtimeChannel);
+
+  realtimeChannel = db
+    .channel(`logs_${currentBaby.id}`)
+    .on('postgres_changes', {
+      event: '*',
+      schema: 'public',
+      table: 'logs',
+      filter: `baby_id=eq.${currentBaby.id}`
+    }, async (payload) => {
+      // Reload today's logs from DB on any change
+      await loadTodayLogs();
+      renderLogs();
+      updateSummary();
+    })
+    .subscribe((status) => {
+      if (status === 'SUBSCRIBED') {
+        document.getElementById('syncDot').title = 'Live sync active';
+      }
+    });
 }
 
 // ── SLEEP ──
@@ -680,7 +597,7 @@ function updateFeedTimer() {
   if (!feedStart) return;
   const s = formatSeconds(Math.floor((Date.now() - feedStart) / 1000));
   document.getElementById('feedTimerVal').textContent = s;
-  document.getElementById('feedTimer').textContent    = s;
+  document.getElementById('feedTimer').textContent = s;
 }
 
 // ── NAPPY ──
@@ -698,9 +615,9 @@ async function logNappy(type) {
   await saveToSupabase(entry);
 }
 
-// ── SUPABASE SAVE ──
+// ── SUPABASE ──
 async function saveToSupabase(entry) {
-  showSaving(true);
+  showSync(true);
   const { data, error } = await db.from('logs').insert({
     baby_id:      currentBaby.id,
     type:         entry.type,
@@ -711,7 +628,7 @@ async function saveToSupabase(entry) {
     start_time:   entry.startTime   || null,
     end_time:     entry.endTime     || null,
   }).select().single();
-  showSaving(false);
+  showSync(false);
   if (data) entry.dbId = data.id;
   return data;
 }
@@ -729,19 +646,20 @@ async function loadTodayLogs() {
   }));
 }
 
-// ── EDIT MODAL ──
+// ── SLIDER MODAL ──
+function onSliderChange(val) {
+  editMinutes = parseInt(val);
+  document.getElementById('durDisplay').textContent = editMinutes;
+}
+
 function openEditModal(type, idx, minutes, subtitle) {
   pendingEdit = { type, idx };
   editMinutes = Math.max(1, minutes || 1);
   document.getElementById('modalTitle').textContent = type==='sleep' ? 'Edit Sleep Duration' : 'Edit Feed Duration';
   document.getElementById('modalSub').textContent   = subtitle;
   document.getElementById('durDisplay').textContent = editMinutes;
+  document.getElementById('durationSlider').value   = editMinutes;
   document.getElementById('editModal').classList.add('visible');
-}
-
-function adjustDur(d) {
-  editMinutes = Math.max(1, editMinutes + d);
-  document.getElementById('durDisplay').textContent = editMinutes;
 }
 
 function closeModal() {
@@ -754,20 +672,31 @@ function closeModal() {
 }
 
 async function saveModal() {
+  if (isSaving) return;
+  isSaving = true;
+
+  const btn = document.getElementById('saveModalBtn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+
   if (pendingEdit) {
     const entry = logs[pendingEdit.idx];
     entry.durationMin = editMinutes;
     renderLogs(); updateSummary();
+
     if (entry.dbId) {
-      showSaving(true);
+      showSync(true);
       await db.from('logs').update({ duration_min: editMinutes }).eq('id', entry.dbId);
-      showSaving(false);
+      showSync(false);
     } else {
       await saveToSupabase(entry);
     }
   }
+
+  // Close modal BEFORE resetting state
   document.getElementById('editModal').classList.remove('visible');
   pendingEdit = null;
+  btn.disabled = false; btn.textContent = 'Save';
+  isSaving = false;
   showToast('Duration saved ✓');
 }
 
@@ -794,7 +723,7 @@ function updateSummary() {
 }
 
 // ── UTILS ──
-function showSaving(on) { document.getElementById('savingDot').classList.toggle('visible', on); }
+function showSync(on) { document.getElementById('syncDot').classList.toggle('visible', on); }
 function formatSeconds(s) { return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`; }
 function formatDur(min) { if (!min) return '—'; if (min<60) return `${min}m`; const h=Math.floor(min/60),m=min%60; return m?`${h}h ${m}m`:`${h}h`; }
 function formatTime(ts) { return new Date(ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); }
@@ -807,6 +736,10 @@ function showToast(msg) {
   clearTimeout(toastTimeout);
   toastTimeout = setTimeout(() => t.classList.remove('show'), 2500);
 }
+
+// ── REALTIME: enable in Supabase ──
+// Make sure Replication is enabled for the logs table in Supabase:
+// Database → Replication → supabase_realtime publication → add 'logs' table
 
 init();
 </script>
