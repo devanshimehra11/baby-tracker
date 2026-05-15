@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Baby Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #FFF9F0;
+    --blush: #F2C4B0;
+    --sage: #A8C4A2;
+    --lavender: #C4B0D4;
+    --deep: #2C2825;
+    --mid: #6B5E54;
+    --light: #B5A99E;
+    --card-bg: #FFFFFF;
+    --shadow: 0 4px 24px rgba(44,40,37,0.08);
+    --error: #E05C5C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--deep);
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
+
+  .screen { display: none; min-height: 100vh; flex-direction: column; }
+  .screen.active { display: flex; }
+
+  /* AUTH */
+  .auth-screen {
+    align-items: center;
+    justify-content: center;
+    padding: 40px 28px;
+    background: var(--warm-white);
+  }
+
+  .auth-blob {
+    width: 100px; height: 100px;
+    background: linear-gradient(135deg, var(--blush), var(--lavender));
+    border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px;
+    margin-bottom: 28px;
+    animation: blobFloat 4s ease-in-out infinite;
+  }
+
+  @keyframes blobFloat {
+    0%,100% { transform: translateY(0); border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
+    50% { transform: translateY(-8px); border-radius: 45% 55% 40% 60% / 60% 40% 55% 45%; }
+  }
+
+  .auth-title {
+    font-family: 'Fraunces', serif;
+    font-size: 30px; font-weight: 300;
+    text-align: center; margin-bottom: 6px;
+  }
+
+  .auth-sub {
+    font-size: 14px; color: var(--mid);
+    text-align: center; margin-bottom: 40px; font-weight: 300;
+  }
+
+  .input-group { width: 100%; margin-bottom: 16px; }
+
+  .input-group label {
+    display: block; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--mid); margin-bottom: 8px;
+  }
+
+  .input-group input {
+    width: 100%; padding: 16px 20px;
+    border: 1.5px solid #E8E0D8; border-radius: 16px;
+    background: var(--card-bg);
+    font-family: 'DM Sans', sans-serif; font-size: 16px;
+    color: var(--deep); outline: none; transition: border-color 0.2s;
+  }
+
+  .input-group input:focus { border-color: var(--blush); }
+
+  .error-msg { font-size: 12px; color: var(--error); margin-top: 6px; display: none; }
+  .error-msg.visible { display: block; }
+
+  .btn-primary {
+    width: 100%; padding: 18px;
+    background: var(--deep); color: var(--cream);
+    border: none; border-radius: 18px;
+    font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500;
+    cursor: pointer; margin-top: 8px;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .auth-switch { margin-top: 24px; font-size: 14px; color: var(--mid); text-align: center; }
+  .auth-switch span { color: var(--deep); font-weight: 500; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+
+  /* LOADING */
+  #loadingScreen { align-items: center; justify-content: center; background: var(--warm-white); }
+  .loading-blob {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--blush), var(--lavender));
+    border-radius: 50%;
+    animation: loadPulse 1.2s ease-in-out infinite;
+  }
+  @keyframes loadPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.15);opacity:0.7} }
+
+  /* MAIN APP */
+  #appScreen { background: var(--cream); padding-bottom: 80px; }
+
+  .app-header {
+    padding: 52px 24px 20px;
+    background: var(--warm-white);
+    border-bottom: 1px solid #EDE7DF;
+  }
+
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
+
+  .baby-name { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 300; }
+  .baby-age { font-size: 13px; color: var(--mid); margin-top: 2px; font-weight: 300; }
+
+  .logout-btn {
+    background: none; border: 1.5px solid #E8E0D8;
+    border-radius: 10px; padding: 8px 14px;
+    font-family: 'DM Sans', sans-serif; font-size: 12px;
+    color: var(--mid); cursor: pointer; margin-top: 4px;
+  }
+
+  .today-summary { display: flex; gap: 12px; margin-top: 16px; }
+
+  .summary-chip {
+    flex: 1; background: var(--card-bg);
+    border-radius: 14px; padding: 12px 10px;
+    text-align: center; box-shadow: var(--shadow);
+  }
+  .chip-val { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 400; }
+  .chip-label { font-size: 10px; color: var(--light); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+
+  .tracker-section { padding: 24px 20px 0; }
+
+  .section-label {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--light); margin-bottom: 14px;
+  }
+
+  .big-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+  .big-btn {
+    background: var(--card-bg); border: none; border-radius: 24px;
+    padding: 22px 10px 18px;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    cursor: pointer; box-shadow: var(--shadow);
+    transition: transform 0.15s; position: relative; overflow: hidden;
+  }
+  .big-btn:active { transform: scale(0.95); }
+  .big-btn.active-sleep { background: linear-gradient(145deg, #E8F4E8, #C8E4C8); }
+  .big-btn.active-feed  { background: linear-gradient(145deg, #FFF0E8, #FFD8C0); }
+
+  .btn-icon { font-size: 32px; line-height: 1; }
+  .btn-label { font-size: 12px; font-weight: 500; color: var(--mid); letter-spacing: 0.03em; }
+  .btn-timer { font-family: 'Fraunces', serif; font-size: 15px; color: var(--deep); font-weight: 400; }
+
+  .pulse-ring {
+    position: absolute; top: 12px; right: 12px;
+    width: 8px; height: 8px; background: var(--sage);
+    border-radius: 50%; display: none;
+  }
+  .pulse-ring.visible { display: block; animation: pulseRing 1.5s ease-in-out infinite; }
+  @keyframes pulseRing { 0%{box-shadow:0 0 0 0 rgba(168,196,162,0.6)} 70%{box-shadow:0 0 0 8px rgba(168,196,162,0)} 100%{box-shadow:0 0 0 0 rgba(168,196,162,0)} }
+
+  .sub-panel {
+    margin: 16px 20px 0; background: var(--card-bg);
+    border-radius: 20px; padding: 20px; box-shadow: var(--shadow);
+    display: none; animation: slideUp 0.25s ease;
+  }
+  .sub-panel.visible { display: block; }
+  @keyframes slideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  .sub-panel-title { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 300; margin-bottom: 16px; }
+
+  .option-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .opt-btn {
+    flex: 1; min-width: 80px; padding: 14px 10px;
+    border: 1.5px solid #E8E0D8; border-radius: 14px;
+    background: transparent; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500; color: var(--mid);
+    cursor: pointer; transition: all 0.15s; text-align: center;
+  }
+  .opt-btn:active, .opt-btn.selected { background: var(--deep); color: var(--cream); border-color: var(--deep); }
+
+  .feed-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+
+  .side-btn {
+    padding: 18px 10px; border: 1.5px solid #E8E0D8; border-radius: 16px;
+    background: transparent; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500; color: var(--mid);
+    cursor: pointer; transition: all 0.15s; text-align: center;
+  }
+  .side-btn.active-side { background: linear-gradient(135deg, var(--blush), #F0A090); color: white; border-color: transparent; }
+
+  .feed-timer-display { text-align: center; padding: 16px; background: var(--cream); border-radius: 14px; margin-top: 4px; }
+  .feed-timer-val { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 300; }
+  .feed-side-label { font-size: 12px; color: var(--mid); margin-top: 4px; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(44,40,37,0.5);
+    display: none; align-items: flex-end; justify-content: center;
+    z-index: 100; backdrop-filter: blur(4px);
+  }
+  .modal-overlay.visible { display: flex; }
+
+  .modal-sheet {
+    background: var(--warm-white); border-radius: 28px 28px 0 0;
+    padding: 28px 24px 48px; width: 100%; max-width: 430px;
+    animation: sheetUp 0.3s ease;
+  }
+  @keyframes sheetUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+
+  .modal-handle { width: 40px; height: 4px; background: #D8D0C8; border-radius: 2px; margin: 0 auto 24px; }
+  .modal-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 300; margin-bottom: 6px; }
+  .modal-sub { font-size: 13px; color: var(--mid); margin-bottom: 24px; }
+
+  .duration-editor { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 28px; }
+
+  .dur-btn {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 1.5px solid #E8E0D8; background: var(--card-bg);
+    font-size: 22px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+  }
+  .dur-btn:active { background: var(--deep); color: var(--cream); border-color: var(--deep); }
+
+  .dur-display { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 300; min-width: 120px; text-align: center; }
+  .dur-unit { font-size: 14px; color: var(--mid); text-align: center; margin-top: -8px; }
+
+  .modal-actions { display: flex; gap: 12px; }
+  .btn-cancel {
+    flex: 1; padding: 16px; border: 1.5px solid #E8E0D8; border-radius: 16px;
+    background: transparent; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--mid); cursor: pointer;
+  }
+  .btn-save {
+    flex: 2; padding: 16px; background: var(--deep); color: var(--cream);
+    border: none; border-radius: 16px; font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 500; cursor: pointer;
+  }
+
+  /* LOG */
+  .log-section { padding: 24px 20px 0; }
+  .log-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .log-item {
+    background: var(--card-bg); border-radius: 16px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 14px;
+    box-shadow: 0 2px 12px rgba(44,40,37,0.05);
+    animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
+
+  .log-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .log-icon.sleep { background: #E8F4E8; }
+  .log-icon.feed  { background: #FFF0E8; }
+  .log-icon.nappy { background: #F0F0FF; }
+
+  .log-info { flex: 1; }
+  .log-type { font-size: 14px; font-weight: 500; }
+  .log-detail { font-size: 12px; color: var(--light); margin-top: 2px; }
+  .log-time { font-size: 12px; color: var(--light); flex-shrink: 0; }
+
+  .empty-log { text-align: center; padding: 32px 20px; color: var(--light); font-size: 14px; font-style: italic; font-family: 'Fraunces', serif; }
+
+  /* SAVING DOT */
+  .saving-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--sage); margin-left: 6px; vertical-align: middle; opacity: 0; transition: opacity 0.3s; }
+  .saving-dot.visible { opacity: 1; animation: blink 1s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 32px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--deep); color: var(--cream);
+    padding: 12px 24px; border-radius: 100px;
+    font-size: 14px; font-weight: 500; z-index: 200;
+    transition: transform 0.3s ease; white-space: nowrap; pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loadingScreen" class="screen active">
+  <div class="loading-blob"></div>
+</div>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="screen auth-screen">
+  <div class="auth-blob">🌙</div>
+  <h1 class="auth-title">Welcome back</h1>
+  <p class="auth-sub">Log in to your baby tracker</p>
+  <div class="input-group">
+    <label>Email</label>
+    <input type="email" id="loginEmail" placeholder="you@email.com" autocomplete="email" />
+  </div>
+  <div class="input-group">
+    <label>Password</label>
+    <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" />
+    <div class="error-msg" id="loginError"></div>
+  </div>
+  <button class="btn-primary" id="loginBtn" onclick="handleLogin()">Log In</button>
+  <div class="auth-switch">Don't have an account? <span onclick="showScreen('signupScreen')">Sign up</span></div>
+</div>
+
+<!-- SIGNUP -->
+<div id="signupScreen" class="screen auth-screen">
+  <div class="auth-blob">✨</div>
+  <h1 class="auth-title">Create account</h1>
+  <p class="auth-sub">Start tracking your little one</p>
+  <div class="input-group">
+    <label>Email</label>
+    <input type="email" id="signupEmail" placeholder="you@email.com" autocomplete="email" />
+  </div>
+  <div class="input-group">
+    <label>Password</label>
+    <input type="password" id="signupPassword" placeholder="Min 6 characters" autocomplete="new-password" />
+    <div class="error-msg" id="signupError"></div>
+  </div>
+  <button class="btn-primary" id="signupBtn" onclick="handleSignup()">Create Account</button>
+  <div class="auth-switch">Already have an account? <span onclick="showScreen('loginScreen')">Log in</span></div>
+</div>
+
+<!-- BABY SETUP -->
+<div id="setupScreen" class="screen auth-screen">
+  <div class="auth-blob">👶</div>
+  <h1 class="auth-title">Meet your baby</h1>
+  <p class="auth-sub">Tell us about your little one</p>
+  <div class="input-group">
+    <label>Baby's Name</label>
+    <input type="text" id="setupName" placeholder="e.g. Priya" autocomplete="off" />
+  </div>
+  <div class="input-group">
+    <label>Date of Birth</label>
+    <input type="date" id="setupDob" />
+    <div class="error-msg" id="setupError"></div>
+  </div>
+  <button class="btn-primary" id="setupBtn" onclick="handleSetup()">Start Tracking →</button>
+</div>
+
+<!-- MAIN APP -->
+<div id="appScreen" class="screen">
+  <div class="app-header">
+    <div class="header-top">
+      <div>
+        <div class="baby-name" id="headerName">—<span class="saving-dot" id="savingDot"></span></div>
+        <div class="baby-age" id="headerAge">—</div>
+      </div>
+      <button class="logout-btn" onclick="handleLogout()">Log out</button>
+    </div>
+    <div class="today-summary">
+      <div class="summary-chip"><div class="chip-val" id="sumSleep">—</div><div class="chip-label">Sleep</div></div>
+      <div class="summary-chip"><div class="chip-val" id="sumFeeds">0</div><div class="chip-label">Feeds</div></div>
+      <div class="summary-chip"><div class="chip-val" id="sumNappies">0</div><div class="chip-label">Nappies</div></div>
+    </div>
+  </div>
+
+  <div class="tracker-section">
+    <div class="section-label">Track</div>
+    <div class="big-buttons">
+      <button class="big-btn" id="sleepBtn" onclick="toggleSleep()">
+        <div class="pulse-ring" id="sleepPulse"></div>
+        <span class="btn-icon">🌙</span>
+        <span class="btn-label" id="sleepLabel">Sleep</span>
+        <span class="btn-timer" id="sleepTimer"></span>
+      </button>
+      <button class="big-btn" id="feedBtn" onclick="toggleFeedPanel()">
+        <div class="pulse-ring" id="feedPulse"></div>
+        <span class="btn-icon">🍼</span>
+        <span class="btn-label">Feed</span>
+        <span class="btn-timer" id="feedTimer"></span>
+      </button>
+      <button class="big-btn" onclick="toggleNappyPanel()">
+        <span class="btn-icon">🧷</span>
+        <span class="btn-label">Nappy</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="feedPanel">
+    <div class="sub-panel-title">Feed</div>
+    <div class="feed-sides">
+      <button class="side-btn" id="sideL" onclick="startFeed('L')">👈 Left</button>
+      <button class="side-btn" id="sideR" onclick="startFeed('R')">Right 👉</button>
+    </div>
+    <div class="feed-timer-display" id="feedTimerDisplay" style="display:none">
+      <div class="feed-timer-val" id="feedTimerVal">0:00</div>
+      <div class="feed-side-label" id="feedSideLabel">—</div>
+      <button class="opt-btn" style="margin-top:12px;width:100%" onclick="stopFeed()">Stop Feed</button>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="nappyPanel">
+    <div class="sub-panel-title">Nappy Change</div>
+    <div class="option-buttons">
+      <button class="opt-btn" onclick="logNappy('Wet')">💧 Wet</button>
+      <button class="opt-btn" onclick="logNappy('Dirty')">💩 Dirty</button>
+      <button class="opt-btn" onclick="logNappy('Mixed')">🌀 Mixed</button>
+    </div>
+  </div>
+
+  <div class="log-section">
+    <div class="section-label">Today's Log</div>
+    <div class="log-list" id="logList">
+      <div class="empty-log">Nothing logged yet — tap above to start</div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalTitle">Edit Duration</div>
+    <div class="modal-sub" id="modalSub"></div>
+    <div class="duration-editor">
+      <button class="dur-btn" onclick="adjustDur(-1)">−</button>
+      <div>
+        <div class="dur-display" id="durDisplay">15</div>
+        <div class="dur-unit">minutes</div>
+      </div>
+      <button class="dur-btn" onclick="adjustDur(1)">+</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveModal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://qyrmqthxzescdtyjhvpx.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5cm1xdGh4emVzY2R0eWpodnB4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3Njk4NTYsImV4cCI6MjA5NDM0NTg1Nn0.k-IsHZJTNLRKg0DRfxA7NiPf2ZtJOBLHzU1baTfghgQ';
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+let currentBaby = null;
+let logs = [];
+let sleepStart = null, sleepInterval = null;
+let feedStart = null, feedSide = null, feedInterval = null;
+let activeFeedPanel = false, activeNappyPanel = false;
+let pendingEdit = null, editMinutes = 0;
+
+// ── BOOT ──
+async function init() {
+  const { data: { session } } = await db.auth.getSession();
+  if (session) { currentUser = session.user; await loadBaby(); }
+  else showScreen('loginScreen');
+}
+
+async function loadBaby() {
+  const { data } = await db
+    .from('baby_access')
+    .select('babies(id, name, date_of_birth)')
+    .eq('user_id', currentUser.id)
+    .limit(1)
+    .maybeSingle();
+  if (data?.babies) { currentBaby = data.babies; await loadTodayLogs(); showApp(); }
+  else showScreen('setupScreen');
+}
+
+// ── SCREENS ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── AUTH ──
+async function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  const btn   = document.getElementById('loginBtn');
+  errEl.classList.remove('visible');
+  if (!email || !pass) { setErr(errEl, 'Please fill in all fields'); return; }
+  btn.disabled = true; btn.textContent = 'Logging in...';
+  const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
+  btn.disabled = false; btn.textContent = 'Log In';
+  if (error) { setErr(errEl, error.message); return; }
+  currentUser = data.user;
+  await loadBaby();
+}
+
+async function handleSignup() {
+  const email = document.getElementById('signupEmail').value.trim();
+  const pass  = document.getElementById('signupPassword').value;
+  const errEl = document.getElementById('signupError');
+  const btn   = document.getElementById('signupBtn');
+  errEl.classList.remove('visible');
+  if (!email || !pass) { setErr(errEl, 'Please fill in all fields'); return; }
+  if (pass.length < 6) { setErr(errEl, 'Password must be at least 6 characters'); return; }
+  btn.disabled = true; btn.textContent = 'Creating account...';
+  const { data, error } = await db.auth.signUp({ email, password: pass });
+  btn.disabled = false; btn.textContent = 'Create Account';
+  if (error) { setErr(errEl, error.message); return; }
+  currentUser = data.user;
+  showScreen('setupScreen');
+}
+
+async function handleSetup() {
+  const name  = document.getElementById('setupName').value.trim();
+  const dob   = document.getElementById('setupDob').value;
+  const errEl = document.getElementById('setupError');
+  const btn   = document.getElementById('setupBtn');
+  errEl.classList.remove('visible');
+  if (!name || !dob) { setErr(errEl, 'Please fill in both fields'); return; }
+  btn.disabled = true; btn.textContent = 'Setting up...';
+  const { data: baby, error } = await db.from('babies').insert({ name, date_of_birth: dob }).select().single();
+  if (error) { setErr(errEl, 'Something went wrong. Try again.'); btn.disabled = false; btn.textContent = 'Start Tracking →'; return; }
+  await db.from('baby_access').insert({ baby_id: baby.id, user_id: currentUser.id, role: 'owner' });
+  btn.disabled = false; btn.textContent = 'Start Tracking →';
+  currentBaby = baby; logs = [];
+  showApp();
+}
+
+async function handleLogout() {
+  await db.auth.signOut();
+  currentUser = null; currentBaby = null; logs = [];
+  clearInterval(sleepInterval); clearInterval(feedInterval);
+  sleepStart = null; feedStart = null;
+  showScreen('loginScreen');
+}
+
+function setErr(el, msg) { el.textContent = msg; el.classList.add('visible'); }
+
+// ── SHOW APP ──
+function showApp() {
+  showScreen('appScreen');
+  refreshHeader(); renderLogs(); updateSummary();
+  const saved = localStorage.getItem(`sleepStart_${currentBaby.id}`);
+  if (saved) {
+    sleepStart = parseInt(saved);
+    document.getElementById('sleepBtn').classList.add('active-sleep');
+    document.getElementById('sleepLabel').textContent = 'Sleeping';
+    document.getElementById('sleepPulse').classList.add('visible');
+    sleepInterval = setInterval(updateSleepTimer, 1000);
+    updateSleepTimer();
+  }
+}
+
+function refreshHeader() {
+  document.getElementById('headerName').textContent = currentBaby.name;
+  document.getElementById('headerAge').textContent  = getAge(currentBaby.date_of_birth);
+}
+
+function getAge(dob) {
+  const days = Math.floor((Date.now() - new Date(dob)) / 86400000);
+  if (days < 7)  return `${days} day${days!==1?'s':''} old`;
+  if (days < 31) { const w = Math.floor(days/7); return `${w} week${w!==1?'s':''} old`; }
+  const m = Math.floor(days/30); return `${m} month${m!==1?'s':''} old`;
+}
+
+// ── SLEEP ──
+function toggleSleep() {
+  if (!sleepStart) {
+    sleepStart = Date.now();
+    localStorage.setItem(`sleepStart_${currentBaby.id}`, sleepStart);
+    document.getElementById('sleepBtn').classList.add('active-sleep');
+    document.getElementById('sleepLabel').textContent = 'Sleeping';
+    document.getElementById('sleepPulse').classList.add('visible');
+    sleepInterval = setInterval(updateSleepTimer, 1000);
+    updateSleepTimer();
+    showToast('Sleep started 🌙');
+  } else {
+    clearInterval(sleepInterval);
+    const durationMin = Math.round((Date.now() - sleepStart) / 60000);
+    const startTime = sleepStart;
+    sleepStart = null;
+    localStorage.removeItem(`sleepStart_${currentBaby.id}`);
+    document.getElementById('sleepBtn').classList.remove('active-sleep');
+    document.getElementById('sleepLabel').textContent = 'Sleep';
+    document.getElementById('sleepPulse').classList.remove('visible');
+    document.getElementById('sleepTimer').textContent = '';
+    const entry = { type: 'sleep', durationMin, startTime, endTime: Date.now(), timestamp: Date.now() };
+    logs.unshift(entry); renderLogs(); updateSummary();
+    openEditModal('sleep', 0, durationMin, `Sleep — ${formatDur(durationMin)}`);
+  }
+}
+
+function updateSleepTimer() {
+  if (!sleepStart) return;
+  document.getElementById('sleepTimer').textContent = formatSeconds(Math.floor((Date.now() - sleepStart) / 1000));
+}
+
+// ── FEED ──
+function toggleFeedPanel() {
+  activeFeedPanel = !activeFeedPanel;
+  document.getElementById('feedPanel').classList.toggle('visible', activeFeedPanel);
+  if (!activeFeedPanel && feedStart) stopFeed();
+}
+
+function startFeed(side) {
+  if (feedStart) { stopFeed(); return; }
+  feedSide = side; feedStart = Date.now();
+  document.getElementById('sideL').classList.toggle('active-side', side==='L');
+  document.getElementById('sideR').classList.toggle('active-side', side==='R');
+  document.getElementById('feedTimerDisplay').style.display = 'block';
+  document.getElementById('feedSideLabel').textContent = side==='L' ? 'Left side' : 'Right side';
+  document.getElementById('feedPulse').classList.add('visible');
+  feedInterval = setInterval(updateFeedTimer, 1000);
+  updateFeedTimer();
+  showToast(`Feed started — ${side==='L'?'Left':'Right'} 🍼`);
+}
+
+function stopFeed() {
+  if (!feedStart) return;
+  clearInterval(feedInterval);
+  const durationMin = Math.round((Date.now() - feedStart) / 60000);
+  const side = feedSide;
+  feedStart = null; feedSide = null;
+  document.getElementById('feedPulse').classList.remove('visible');
+  document.getElementById('feedTimerDisplay').style.display = 'none';
+  document.getElementById('feedTimer').textContent = '';
+  document.getElementById('sideL').classList.remove('active-side');
+  document.getElementById('sideR').classList.remove('active-side');
+  activeFeedPanel = false;
+  document.getElementById('feedPanel').classList.remove('visible');
+  const entry = { type: 'feed', side, durationMin, timestamp: Date.now() };
+  logs.unshift(entry); renderLogs(); updateSummary();
+  openEditModal('feed', 0, durationMin, `Feed (${side==='L'?'Left':'Right'}) — ${formatDur(durationMin)}`);
+}
+
+function updateFeedTimer() {
+  if (!feedStart) return;
+  const s = formatSeconds(Math.floor((Date.now() - feedStart) / 1000));
+  document.getElementById('feedTimerVal').textContent = s;
+  document.getElementById('feedTimer').textContent    = s;
+}
+
+// ── NAPPY ──
+function toggleNappyPanel() {
+  activeNappyPanel = !activeNappyPanel;
+  document.getElementById('nappyPanel').classList.toggle('visible', activeNappyPanel);
+}
+
+async function logNappy(type) {
+  const entry = { type: 'nappy', nappyType: type, timestamp: Date.now() };
+  logs.unshift(entry); renderLogs(); updateSummary();
+  activeNappyPanel = false;
+  document.getElementById('nappyPanel').classList.remove('visible');
+  showToast(`Nappy logged — ${type} 🧷`);
+  await saveToSupabase(entry);
+}
+
+// ── SUPABASE SAVE ──
+async function saveToSupabase(entry) {
+  showSaving(true);
+  const { data, error } = await db.from('logs').insert({
+    baby_id:      currentBaby.id,
+    type:         entry.type,
+    timestamp:    entry.timestamp,
+    duration_min: entry.durationMin || null,
+    side:         entry.side        || null,
+    nappy_type:   entry.nappyType   || null,
+    start_time:   entry.startTime   || null,
+    end_time:     entry.endTime     || null,
+  }).select().single();
+  showSaving(false);
+  if (data) entry.dbId = data.id;
+  return data;
+}
+
+async function loadTodayLogs() {
+  const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
+  const { data } = await db.from('logs').select('*')
+    .eq('baby_id', currentBaby.id)
+    .gte('timestamp', startOfDay.getTime())
+    .order('timestamp', { ascending: false });
+  if (data) logs = data.map(r => ({
+    dbId: r.id, type: r.type, timestamp: r.timestamp,
+    durationMin: r.duration_min, side: r.side,
+    nappyType: r.nappy_type, startTime: r.start_time, endTime: r.end_time,
+  }));
+}
+
+// ── EDIT MODAL ──
+function openEditModal(type, idx, minutes, subtitle) {
+  pendingEdit = { type, idx };
+  editMinutes = Math.max(1, minutes || 1);
+  document.getElementById('modalTitle').textContent = type==='sleep' ? 'Edit Sleep Duration' : 'Edit Feed Duration';
+  document.getElementById('modalSub').textContent   = subtitle;
+  document.getElementById('durDisplay').textContent = editMinutes;
+  document.getElementById('editModal').classList.add('visible');
+}
+
+function adjustDur(d) {
+  editMinutes = Math.max(1, editMinutes + d);
+  document.getElementById('durDisplay').textContent = editMinutes;
+}
+
+function closeModal() {
+  if (pendingEdit) {
+    const entry = logs[pendingEdit.idx];
+    if (entry && !entry.dbId) saveToSupabase(entry);
+  }
+  document.getElementById('editModal').classList.remove('visible');
+  pendingEdit = null;
+}
+
+async function saveModal() {
+  if (pendingEdit) {
+    const entry = logs[pendingEdit.idx];
+    entry.durationMin = editMinutes;
+    renderLogs(); updateSummary();
+    if (entry.dbId) {
+      showSaving(true);
+      await db.from('logs').update({ duration_min: editMinutes }).eq('id', entry.dbId);
+      showSaving(false);
+    } else {
+      await saveToSupabase(entry);
+    }
+  }
+  document.getElementById('editModal').classList.remove('visible');
+  pendingEdit = null;
+  showToast('Duration saved ✓');
+}
+
+// ── RENDER ──
+function renderLogs() {
+  const list = document.getElementById('logList');
+  const today = logs.filter(l => isToday(l.timestamp));
+  if (!today.length) { list.innerHTML = '<div class="empty-log">Nothing logged yet — tap above to start</div>'; return; }
+  list.innerHTML = today.map(log => {
+    const time = formatTime(log.timestamp);
+    if (log.type === 'sleep') return `<div class="log-item"><div class="log-icon sleep">🌙</div><div class="log-info"><div class="log-type">Sleep</div><div class="log-detail">${formatDur(log.durationMin)}</div></div><div class="log-time">${time}</div></div>`;
+    if (log.type === 'feed')  return `<div class="log-item"><div class="log-icon feed">🍼</div><div class="log-info"><div class="log-type">Feed — ${log.side==='L'?'Left':'Right'}</div><div class="log-detail">${formatDur(log.durationMin)}</div></div><div class="log-time">${time}</div></div>`;
+    if (log.type === 'nappy') return `<div class="log-item"><div class="log-icon nappy">🧷</div><div class="log-info"><div class="log-type">Nappy</div><div class="log-detail">${log.nappyType}</div></div><div class="log-time">${time}</div></div>`;
+    return '';
+  }).join('');
+}
+
+function updateSummary() {
+  const today = logs.filter(l => isToday(l.timestamp));
+  const sleepMin = today.filter(l=>l.type==='sleep').reduce((s,l)=>s+(l.durationMin||0),0);
+  document.getElementById('sumSleep').textContent   = sleepMin ? formatDur(sleepMin) : '—';
+  document.getElementById('sumFeeds').textContent   = today.filter(l=>l.type==='feed').length;
+  document.getElementById('sumNappies').textContent = today.filter(l=>l.type==='nappy').length;
+}
+
+// ── UTILS ──
+function showSaving(on) { document.getElementById('savingDot').classList.toggle('visible', on); }
+function formatSeconds(s) { return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`; }
+function formatDur(min) { if (!min) return '—'; if (min<60) return `${min}m`; const h=Math.floor(min/60),m=min%60; return m?`${h}h ${m}m`:`${h}h`; }
+function formatTime(ts) { return new Date(ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); }
+function isToday(ts) { const d=new Date(ts),n=new Date(); return d.getDate()===n.getDate()&&d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear(); }
+
+let toastTimeout;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+init();
+</script>
+</body>
+</html>
