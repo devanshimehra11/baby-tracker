@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,172 +36,152 @@
   .screen { display: none; min-height: 100vh; flex-direction: column; }
   .screen.active { display: flex; }
 
-  .auth-screen {
-    align-items: center; justify-content: center;
-    padding: 40px 28px; background: var(--warm-white);
-  }
-
-  .auth-blob {
-    width: 100px; height: 100px;
-    background: linear-gradient(135deg, var(--blush), var(--lavender));
-    border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 44px; margin-bottom: 28px;
-    animation: blobFloat 4s ease-in-out infinite;
-  }
-
-  @keyframes blobFloat {
-    0%,100% { transform: translateY(0); border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
-    50% { transform: translateY(-8px); border-radius: 45% 55% 40% 60% / 60% 40% 55% 45%; }
-  }
-
+  /* ── AUTH ── */
+  .auth-screen { align-items: center; justify-content: center; padding: 40px 28px; background: var(--warm-white); }
+  .auth-blob { width: 100px; height: 100px; background: linear-gradient(135deg, var(--blush), var(--lavender)); border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; display: flex; align-items: center; justify-content: center; font-size: 44px; margin-bottom: 28px; animation: blobFloat 4s ease-in-out infinite; }
+  @keyframes blobFloat { 0%,100%{transform:translateY(0);border-radius:60% 40% 55% 45%/45% 55% 40% 60%} 50%{transform:translateY(-8px);border-radius:45% 55% 40% 60%/60% 40% 55% 45%} }
   .auth-title { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 300; text-align: center; margin-bottom: 6px; }
   .auth-sub { font-size: 14px; color: var(--mid); text-align: center; margin-bottom: 40px; font-weight: 300; }
-
   .input-group { width: 100%; margin-bottom: 16px; }
   .input-group label { display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); margin-bottom: 8px; }
   .input-group input { width: 100%; padding: 16px 20px; border: 1.5px solid #E8E0D8; border-radius: 16px; background: var(--card-bg); font-family: 'DM Sans', sans-serif; font-size: 16px; color: var(--deep); outline: none; transition: border-color 0.2s; }
   .input-group input:focus { border-color: var(--blush); }
-
   .error-msg { font-size: 12px; color: var(--error); margin-top: 6px; display: none; }
   .error-msg.visible { display: block; }
-
   .btn-primary { width: 100%; padding: 18px; background: var(--deep); color: var(--cream); border: none; border-radius: 18px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 8px; transition: transform 0.15s, opacity 0.15s; }
   .btn-primary:active { transform: scale(0.97); }
   .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-
   .auth-switch { margin-top: 24px; font-size: 14px; color: var(--mid); text-align: center; }
   .auth-switch span { color: var(--deep); font-weight: 500; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 
+  /* ── LOADING ── */
   #loadingScreen { align-items: center; justify-content: center; background: var(--warm-white); }
   .loading-blob { width: 80px; height: 80px; background: linear-gradient(135deg, var(--blush), var(--lavender)); border-radius: 50%; animation: loadPulse 1.2s ease-in-out infinite; }
   @keyframes loadPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.15);opacity:0.7} }
 
-  #appScreen { background: var(--cream); padding-bottom: 80px; }
-
+  /* ── APP SCREEN ── */
+  #appScreen { background: var(--cream); padding-bottom: 40px; }
   .app-header { padding: 52px 24px 20px; background: var(--warm-white); border-bottom: 1px solid #EDE7DF; }
   .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
   .baby-name { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 300; }
   .baby-age { font-size: 13px; color: var(--mid); margin-top: 2px; font-weight: 300; }
-
   .header-right { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-
   .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sage); opacity: 0; transition: opacity 0.3s; flex-shrink: 0; }
   .sync-dot.visible { opacity: 1; animation: blink 1s infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
   .logout-btn { background: none; border: 1.5px solid #E8E0D8; border-radius: 10px; padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--mid); cursor: pointer; }
 
-  .today-summary { display: flex; gap: 12px; margin-top: 16px; }
-  .summary-chip { flex: 1; background: var(--card-bg); border-radius: 14px; padding: 12px 10px; text-align: center; box-shadow: var(--shadow); }
-  .chip-val { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 400; }
-  .chip-label { font-size: 10px; color: var(--light); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+  /* ── SUMMARY ── */
+  .summary-section { margin-top: 16px; }
+  .period-toggle { display: flex; background: #EDE7DF; border-radius: 10px; padding: 3px; margin-bottom: 12px; width: fit-content; }
+  .period-btn { padding: 5px 12px; border: none; border-radius: 8px; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; color: var(--light); cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em; }
+  .period-btn.active { background: var(--card-bg); color: var(--deep); box-shadow: 0 1px 4px rgba(44,40,37,0.10); }
+  .summary-chips { display: flex; gap: 10px; }
+  .summary-chip { flex: 1; background: var(--card-bg); border-radius: 14px; padding: 12px 8px; text-align: center; box-shadow: var(--shadow); transition: opacity 0.2s, transform 0.15s; cursor: pointer; border: none; }
+  .summary-chip:active { transform: scale(0.96); }
+  .summary-chip.loading { opacity: 0.4; pointer-events: none; }
+  .chip-val { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 400; line-height: 1.2; }
+  .chip-label { font-size: 10px; color: var(--light); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
+  .chip-sub { font-size: 9px; color: var(--light); margin-top: 1px; font-style: italic; }
 
+  /* ── TRACKER ── */
   .tracker-section { padding: 24px 20px 0; }
   .section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); margin-bottom: 14px; }
   .big-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-
   .big-btn { background: var(--card-bg); border: none; border-radius: 24px; padding: 22px 10px 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.15s; position: relative; overflow: hidden; }
   .big-btn:active { transform: scale(0.95); }
   .big-btn.active-sleep { background: linear-gradient(145deg, #E8F4E8, #C8E4C8); }
   .big-btn.active-feed { background: linear-gradient(145deg, #FFF0E8, #FFD8C0); }
-
   .btn-icon { font-size: 32px; line-height: 1; }
   .btn-label { font-size: 12px; font-weight: 500; color: var(--mid); letter-spacing: 0.03em; }
   .btn-timer { font-family: 'Fraunces', serif; font-size: 15px; color: var(--deep); font-weight: 400; }
-
   .pulse-ring { position: absolute; top: 12px; right: 12px; width: 8px; height: 8px; background: var(--sage); border-radius: 50%; display: none; }
   .pulse-ring.visible { display: block; animation: pulseRing 1.5s ease-in-out infinite; }
   @keyframes pulseRing { 0%{box-shadow:0 0 0 0 rgba(168,196,162,0.6)} 70%{box-shadow:0 0 0 8px rgba(168,196,162,0)} 100%{box-shadow:0 0 0 0 rgba(168,196,162,0)} }
 
+  /* ── SUB PANELS ── */
   .sub-panel { margin: 16px 20px 0; background: var(--card-bg); border-radius: 20px; padding: 20px; box-shadow: var(--shadow); display: none; animation: slideUp 0.25s ease; }
   .sub-panel.visible { display: block; }
   @keyframes slideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-
   .sub-panel-title { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 300; margin-bottom: 16px; }
   .option-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
-
   .opt-btn { flex: 1; min-width: 80px; padding: 14px 10px; border: 1.5px solid #E8E0D8; border-radius: 14px; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--mid); cursor: pointer; transition: all 0.15s; text-align: center; }
   .opt-btn:active, .opt-btn.selected { background: var(--deep); color: var(--cream); border-color: var(--deep); }
-
   .feed-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   .side-btn { padding: 18px 10px; border: 1.5px solid #E8E0D8; border-radius: 16px; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--mid); cursor: pointer; transition: all 0.15s; text-align: center; }
   .side-btn.active-side { background: linear-gradient(135deg, var(--blush), #F0A090); color: white; border-color: transparent; }
-
   .feed-timer-display { text-align: center; padding: 16px; background: var(--cream); border-radius: 14px; margin-top: 4px; }
   .feed-timer-val { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 300; }
   .feed-side-label { font-size: 12px; color: var(--mid); margin-top: 4px; }
 
-  /* MODAL */
+  /* ── NAPPY TIME ROW ── */
+  .nappy-time-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #EDE7DF; }
+  .nappy-time-label { font-size: 12px; color: var(--mid); white-space: nowrap; }
+  .nappy-time-input { flex: 1; padding: 10px 14px; border: 1.5px solid #E8E0D8; border-radius: 12px; background: var(--card-bg); font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--deep); outline: none; }
+  .nappy-time-input:focus { border-color: var(--blush); }
+
+  /* ── LOG DETAIL SCREEN ── */
+  #logScreen { background: var(--cream); }
+  .log-header { padding: 52px 24px 20px; background: var(--warm-white); border-bottom: 1px solid #EDE7DF; }
+  .log-header-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .back-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--deep); padding: 4px; line-height: 1; }
+  .log-screen-title { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 300; }
+
+  .log-content { padding: 20px; overflow-y: auto; flex: 1; }
+
+  .day-group { margin-bottom: 24px; }
+  .day-group-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); margin-bottom: 10px; }
+
+  .log-item { background: var(--card-bg); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; box-shadow: 0 2px 12px rgba(44,40,37,0.05); margin-bottom: 8px; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
+  .log-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .log-icon.sleep { background: #E8F4E8; }
+  .log-icon.feed  { background: #FFF0E8; }
+  .log-icon.nappy { background: #F0F0FF; }
+  .log-info { flex: 1; }
+  .log-type { font-size: 14px; font-weight: 500; }
+  .log-detail { font-size: 12px; color: var(--light); margin-top: 2px; }
+  .log-time { font-size: 12px; color: var(--light); flex-shrink: 0; text-align: right; }
+  .log-time-range { font-size: 11px; color: var(--light); margin-top: 2px; }
+
+  .empty-log { text-align: center; padding: 48px 20px; color: var(--light); font-size: 14px; font-style: italic; font-family: 'Fraunces', serif; }
+
+  /* ── MODALS ── */
   .modal-overlay { position: fixed; inset: 0; background: rgba(44,40,37,0.5); display: none; align-items: flex-end; justify-content: center; z-index: 100; backdrop-filter: blur(4px); }
   .modal-overlay.visible { display: flex; }
-
-  .modal-sheet { background: var(--warm-white); border-radius: 28px 28px 0 0; padding: 28px 24px 48px; width: 100%; max-width: 430px; animation: sheetUp 0.3s ease; }
+  .modal-sheet { background: var(--warm-white); border-radius: 28px 28px 0 0; padding: 28px 24px 48px; width: 100%; max-width: 430px; animation: sheetUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
   @keyframes sheetUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
-
   .modal-handle { width: 40px; height: 4px; background: #D8D0C8; border-radius: 2px; margin: 0 auto 24px; }
   .modal-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 300; margin-bottom: 6px; }
-  .modal-sub { font-size: 13px; color: var(--mid); margin-bottom: 28px; }
+  .modal-sub { font-size: 13px; color: var(--mid); margin-bottom: 24px; }
 
-  /* SLIDER */
-  .slider-section { margin-bottom: 28px; }
-
+  /* ── SLIDER ── */
+  .slider-section { margin-bottom: 24px; }
   .slider-value-display { text-align: center; margin-bottom: 16px; }
   .dur-display { font-family: 'Fraunces', serif; font-size: 56px; font-weight: 300; color: var(--deep); line-height: 1; }
   .dur-unit { font-size: 14px; color: var(--mid); margin-top: 4px; }
-
   .slider-track { position: relative; padding: 8px 0; }
-
-  input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 6px;
-    border-radius: 3px;
-    background: #E8E0D8;
-    outline: none;
-    cursor: pointer;
-  }
-
-  input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    background: var(--deep);
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(44,40,37,0.3);
-    transition: transform 0.15s;
-  }
-
+  input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 3px; background: #E8E0D8; outline: none; cursor: pointer; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--deep); cursor: pointer; box-shadow: 0 2px 8px rgba(44,40,37,0.3); transition: transform 0.15s; }
   input[type="range"]::-webkit-slider-thumb:active { transform: scale(1.2); }
   input[type="range"]::-moz-range-thumb { width: 28px; height: 28px; border-radius: 50%; background: var(--deep); cursor: pointer; border: none; box-shadow: 0 2px 8px rgba(44,40,37,0.3); }
-
   .slider-labels { display: flex; justify-content: space-between; margin-top: 8px; }
   .slider-labels span { font-size: 11px; color: var(--light); }
+
+  /* ── START TIME EDIT ── */
+  .start-time-section { margin-bottom: 24px; padding-top: 4px; }
+  .start-time-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); margin-bottom: 10px; display: block; }
+  .time-input-row { display: flex; gap: 10px; align-items: center; }
+  .time-input-row input[type="date"],
+  .time-input-row input[type="time"] { flex: 1; padding: 14px 16px; border: 1.5px solid #E8E0D8; border-radius: 14px; background: var(--card-bg); font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--deep); outline: none; transition: border-color 0.2s; }
+  .time-input-row input:focus { border-color: var(--blush); }
+  .section-divider { height: 1px; background: #EDE7DF; margin: 0 0 24px; }
 
   .modal-actions { display: flex; gap: 12px; }
   .btn-cancel { flex: 1; padding: 16px; border: 1.5px solid #E8E0D8; border-radius: 16px; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--mid); cursor: pointer; }
   .btn-save { flex: 2; padding: 16px; background: var(--deep); color: var(--cream); border: none; border-radius: 16px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; }
 
-  .log-section { padding: 24px 20px 0; }
-  .log-list { display: flex; flex-direction: column; gap: 8px; }
-
-  .log-item { background: var(--card-bg); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; box-shadow: 0 2px 12px rgba(44,40,37,0.05); animation: fadeIn 0.2s ease; }
-  @keyframes fadeIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
-
-  .log-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-  .log-icon.sleep { background: #E8F4E8; }
-  .log-icon.feed  { background: #FFF0E8; }
-  .log-icon.nappy { background: #F0F0FF; }
-
-  .log-info { flex: 1; }
-  .log-type { font-size: 14px; font-weight: 500; }
-  .log-detail { font-size: 12px; color: var(--light); margin-top: 2px; }
-  .log-time { font-size: 12px; color: var(--light); flex-shrink: 0; }
-
-  .empty-log { text-align: center; padding: 32px 20px; color: var(--light); font-size: 14px; font-style: italic; font-family: 'Fraunces', serif; }
-
+  /* ── TOAST ── */
   .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--deep); color: var(--cream); padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 500; z-index: 200; transition: transform 0.3s ease; white-space: nowrap; pointer-events: none; }
   .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
@@ -280,10 +259,29 @@
         <button class="logout-btn" onclick="handleLogout()">Log out</button>
       </div>
     </div>
-    <div class="today-summary">
-      <div class="summary-chip"><div class="chip-val" id="sumSleep">—</div><div class="chip-label">Sleep</div></div>
-      <div class="summary-chip"><div class="chip-val" id="sumFeeds">0</div><div class="chip-label">Feeds</div></div>
-      <div class="summary-chip"><div class="chip-val" id="sumNappies">0</div><div class="chip-label">Nappies</div></div>
+    <div class="summary-section">
+      <div class="period-toggle">
+        <button class="period-btn active" id="periodToday" onclick="setPeriod('today')">Today</button>
+        <button class="period-btn" id="period7d" onclick="setPeriod('7d')">7 Days</button>
+        <button class="period-btn" id="periodMonth" onclick="setPeriod('month')">Month</button>
+      </div>
+      <div class="summary-chips">
+        <button class="summary-chip" onclick="openLogScreen('sleep')">
+          <div class="chip-val" id="sumSleep">—</div>
+          <div class="chip-label">Sleep</div>
+          <div class="chip-sub" id="sumSleepSub"></div>
+        </button>
+        <button class="summary-chip" onclick="openLogScreen('feed')">
+          <div class="chip-val" id="sumFeeds">—</div>
+          <div class="chip-label">Feed</div>
+          <div class="chip-sub" id="sumFeedsSub"></div>
+        </button>
+        <button class="summary-chip" onclick="openLogScreen('nappy')">
+          <div class="chip-val" id="sumNappies">0</div>
+          <div class="chip-label">Nappies</div>
+          <div class="chip-sub" id="sumNappiesSub"></div>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -329,22 +327,49 @@
       <button class="opt-btn" onclick="logNappy('Dirty')">💩 Dirty</button>
       <button class="opt-btn" onclick="logNappy('Mixed')">🌀 Mixed</button>
     </div>
-  </div>
-
-  <div class="log-section">
-    <div class="section-label">Today's Log</div>
-    <div class="log-list" id="logList">
-      <div class="empty-log">Nothing logged yet — tap above to start</div>
+    <div class="nappy-time-row">
+      <span class="nappy-time-label">Time</span>
+      <input type="time" class="nappy-time-input" id="nappyTimeInput" />
+      <input type="date" class="nappy-time-input" id="nappyDateInput" style="max-width:150px;" />
     </div>
   </div>
 </div>
 
-<!-- EDIT MODAL -->
+<!-- LOG DETAIL SCREEN -->
+<div id="logScreen" class="screen">
+  <div class="log-header">
+    <div class="log-header-top">
+      <button class="back-btn" onclick="closeLogScreen()">←</button>
+      <div class="log-screen-title" id="logScreenTitle">Sleep Log</div>
+    </div>
+    <div class="period-toggle">
+      <button class="period-btn active" id="logPeriodToday" onclick="setLogPeriod('today')">Today</button>
+      <button class="period-btn" id="logPeriod7d" onclick="setLogPeriod('7d')">7 Days</button>
+      <button class="period-btn" id="logPeriodMonth" onclick="setLogPeriod('month')">Month</button>
+    </div>
+  </div>
+  <div class="log-content" id="logContent">
+    <div class="empty-log">No logs yet</div>
+  </div>
+</div>
+
+<!-- EDIT MODAL (sleep / feed) -->
 <div class="modal-overlay" id="editModal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title" id="modalTitle">Edit Duration</div>
     <div class="modal-sub" id="modalSub"></div>
+
+    <div class="start-time-section">
+      <span class="start-time-label">Start Time</span>
+      <div class="time-input-row">
+        <input type="date" id="editStartDate" oninput="onStartTimeChange()" />
+        <input type="time" id="editStartTime" oninput="onStartTimeChange()" />
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
     <div class="slider-section">
       <div class="slider-value-display">
         <div class="dur-display" id="durDisplay">15</div>
@@ -355,6 +380,7 @@
         <div class="slider-labels"><span>1m</span><span>1h</span><span>2h</span><span>4h</span></div>
       </div>
     </div>
+
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
       <button class="btn-save" id="saveModalBtn" onclick="saveModal()">Save</button>
@@ -380,6 +406,10 @@ let activeFeedPanel = false, activeNappyPanel = false;
 let pendingEdit = null, editMinutes = 0;
 let realtimeChannel = null;
 let isSaving = false;
+let activePeriod = 'today';
+let activeLogType = 'sleep';
+let activeLogPeriod = 'today';
+let logScreenData = []; // cached for log screen
 
 // ── BOOT ──
 async function init() {
@@ -444,17 +474,13 @@ async function handleSetup() {
   errEl.classList.remove('visible');
   if (!name || !dob) { setErr(errEl, 'Please fill in both fields'); return; }
   btn.disabled = true; btn.textContent = 'Setting up...';
-
   const { data: { session } } = await db.auth.getSession();
   if (!session) { setErr(errEl, 'Session expired. Please log in again.'); btn.disabled=false; btn.textContent='Start Tracking →'; showScreen('loginScreen'); return; }
   currentUser = session.user;
-
   const { data: baby, error } = await db.from('babies').insert({ name, date_of_birth: dob }).select().single();
   if (error) { setErr(errEl, error.message); btn.disabled=false; btn.textContent='Start Tracking →'; return; }
-
   const { error: accessError } = await db.from('baby_access').insert({ baby_id: baby.id, user_id: currentUser.id, role: 'owner' });
   if (accessError) { setErr(errEl, accessError.message); btn.disabled=false; btn.textContent='Start Tracking →'; return; }
-
   btn.disabled=false; btn.textContent='Start Tracking →';
   currentBaby = baby; logs = [];
   showApp();
@@ -474,8 +500,10 @@ function setErr(el, msg) { el.textContent = msg; el.classList.add('visible'); }
 // ── SHOW APP ──
 function showApp() {
   showScreen('appScreen');
-  refreshHeader(); renderLogs(); updateSummary();
+  refreshHeader();
+  updateSummary();
   subscribeRealtime();
+  initNappyTime();
   const saved = localStorage.getItem(`sleepStart_${currentBaby.id}`);
   if (saved) {
     sleepStart = parseInt(saved);
@@ -499,27 +527,16 @@ function getAge(dob) {
   const m = Math.floor(days/30); return `${m} month${m!==1?'s':''} old`;
 }
 
-// ── REALTIME SYNC ──
+// ── REALTIME ──
 function subscribeRealtime() {
   if (realtimeChannel) db.removeChannel(realtimeChannel);
-
   realtimeChannel = db
     .channel(`logs_${currentBaby.id}`)
-    .on('postgres_changes', {
-      event: '*',
-      schema: 'public',
-      table: 'logs',
-      filter: `baby_id=eq.${currentBaby.id}`
-    }, async (payload) => {
-      // Reload today's logs from DB on any change
-      await loadTodayLogs();
-      renderLogs();
-      updateSummary();
-    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'logs', filter: `baby_id=eq.${currentBaby.id}` },
+      async () => { await loadTodayLogs(); updateSummary(); }
+    )
     .subscribe((status) => {
-      if (status === 'SUBSCRIBED') {
-        document.getElementById('syncDot').title = 'Live sync active';
-      }
+      if (status === 'SUBSCRIBED') document.getElementById('syncDot').title = 'Live sync active';
     });
 }
 
@@ -536,17 +553,19 @@ function toggleSleep() {
     showToast('Sleep started 🌙');
   } else {
     clearInterval(sleepInterval);
-    const durationMin = Math.round((Date.now() - sleepStart) / 60000);
     const startTime = sleepStart;
+    const endTime   = Date.now();
+    const durationMin = Math.round((endTime - startTime) / 60000);
     sleepStart = null;
     localStorage.removeItem(`sleepStart_${currentBaby.id}`);
     document.getElementById('sleepBtn').classList.remove('active-sleep');
     document.getElementById('sleepLabel').textContent = 'Sleep';
     document.getElementById('sleepPulse').classList.remove('visible');
     document.getElementById('sleepTimer').textContent = '';
-    const entry = { type: 'sleep', durationMin, startTime, endTime: Date.now(), timestamp: Date.now() };
-    logs.unshift(entry); renderLogs(); updateSummary();
-    openEditModal('sleep', 0, durationMin, `Sleep — ${formatDur(durationMin)}`);
+    const entry = { type: 'sleep', durationMin, startTime, endTime, timestamp: endTime };
+    logs.unshift(entry);
+    updateSummary();
+    openEditModal('sleep', 0, durationMin, startTime, `Sleep — ${formatDur(durationMin)}`);
   }
 }
 
@@ -578,7 +597,9 @@ function startFeed(side) {
 function stopFeed() {
   if (!feedStart) return;
   clearInterval(feedInterval);
-  const durationMin = Math.round((Date.now() - feedStart) / 60000);
+  const startTime   = feedStart;
+  const endTime     = Date.now();
+  const durationMin = Math.round((endTime - startTime) / 60000);
   const side = feedSide;
   feedStart = null; feedSide = null;
   document.getElementById('feedPulse').classList.remove('visible');
@@ -588,9 +609,10 @@ function stopFeed() {
   document.getElementById('sideR').classList.remove('active-side');
   activeFeedPanel = false;
   document.getElementById('feedPanel').classList.remove('visible');
-  const entry = { type: 'feed', side, durationMin, timestamp: Date.now() };
-  logs.unshift(entry); renderLogs(); updateSummary();
-  openEditModal('feed', 0, durationMin, `Feed (${side==='L'?'Left':'Right'}) — ${formatDur(durationMin)}`);
+  const entry = { type: 'feed', side, durationMin, startTime, endTime, timestamp: endTime };
+  logs.unshift(entry);
+  updateSummary();
+  openEditModal('feed', 0, durationMin, startTime, `Feed (${side==='L'?'Left':'Right'}) — ${formatDur(durationMin)}`);
 }
 
 function updateFeedTimer() {
@@ -601,14 +623,25 @@ function updateFeedTimer() {
 }
 
 // ── NAPPY ──
+function initNappyTime() {
+  const now = new Date();
+  document.getElementById('nappyTimeInput').value = toTimeString(now);
+  document.getElementById('nappyDateInput').value = toDateString(now);
+}
+
 function toggleNappyPanel() {
   activeNappyPanel = !activeNappyPanel;
   document.getElementById('nappyPanel').classList.toggle('visible', activeNappyPanel);
+  if (activeNappyPanel) initNappyTime();
 }
 
 async function logNappy(type) {
-  const entry = { type: 'nappy', nappyType: type, timestamp: Date.now() };
-  logs.unshift(entry); renderLogs(); updateSummary();
+  const timeVal = document.getElementById('nappyTimeInput').value;
+  const dateVal = document.getElementById('nappyDateInput').value;
+  const ts = dateVal && timeVal ? new Date(`${dateVal}T${timeVal}`).getTime() : Date.now();
+  const entry = { type: 'nappy', nappyType: type, timestamp: ts };
+  logs.unshift(entry);
+  updateSummary();
   activeNappyPanel = false;
   document.getElementById('nappyPanel').classList.remove('visible');
   showToast(`Nappy logged — ${type} 🧷`);
@@ -639,27 +672,281 @@ async function loadTodayLogs() {
     .eq('baby_id', currentBaby.id)
     .gte('timestamp', startOfDay.getTime())
     .order('timestamp', { ascending: false });
-  if (data) logs = data.map(r => ({
+  if (data) logs = data.map(rowToEntry);
+}
+
+function rowToEntry(r) {
+  return {
     dbId: r.id, type: r.type, timestamp: r.timestamp,
     durationMin: r.duration_min, side: r.side,
     nappyType: r.nappy_type, startTime: r.start_time, endTime: r.end_time,
-  }));
+  };
 }
 
-// ── SLIDER MODAL ──
-function onSliderChange(val) {
-  editMinutes = parseInt(val);
-  document.getElementById('durDisplay').textContent = editMinutes;
+// ── PERIOD TOGGLE (main) ──
+function setPeriod(period) {
+  activePeriod = period;
+  ['today','7d','month'].forEach(p => {
+    const id = `period${p==='today'?'Today':p==='7d'?'7d':'Month'}`;
+    document.getElementById(id).classList.toggle('active', p === period);
+  });
+  updateSummary();
 }
 
-function openEditModal(type, idx, minutes, subtitle) {
+async function updateSummary() {
+  if (activePeriod === 'today') renderTodaySummary();
+  else await renderRangeSummary(activePeriod);
+}
+
+// ── SLEEP SPLIT HELPER ──
+// Returns { [dateKey]: minutes } splitting a sleep entry across midnight boundaries
+function splitSleepAcrossDays(entry) {
+  const result = {};
+  if (!entry.startTime || !entry.endTime) {
+    // fallback: attribute full duration to logged day
+    const key = dayKey(entry.timestamp);
+    result[key] = (result[key] || 0) + (entry.durationMin || 0);
+    return result;
+  }
+  let cursor = entry.startTime;
+  const end  = entry.endTime;
+  while (cursor < end) {
+    const cursorDate = new Date(cursor);
+    const midnight   = new Date(cursorDate); midnight.setHours(24,0,0,0);
+    const segEnd     = Math.min(midnight.getTime(), end);
+    const segMin     = Math.round((segEnd - cursor) / 60000);
+    const key        = dayKey(cursor);
+    result[key]      = (result[key] || 0) + segMin;
+    cursor           = segEnd;
+  }
+  return result;
+}
+
+function dayKey(ts) {
+  const d = new Date(ts);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function todayKey() { return dayKey(Date.now()); }
+
+function renderTodaySummary() {
+  const tk = todayKey();
+  // sleep: split across days, take today's portion
+  let sleepMin = 0;
+  logs.filter(l => l.type==='sleep').forEach(l => {
+    const split = splitSleepAcrossDays(l);
+    sleepMin += split[tk] || 0;
+  });
+  const feedMin    = logs.filter(l => l.type==='feed' && isToday(l.timestamp)).reduce((s,l)=>s+(l.durationMin||0),0);
+  const nappyCount = logs.filter(l => l.type==='nappy' && isToday(l.timestamp)).length;
+
+  document.getElementById('sumSleep').textContent    = sleepMin  ? formatDur(sleepMin)  : '—';
+  document.getElementById('sumFeeds').textContent    = feedMin   ? formatDur(feedMin)   : '—';
+  document.getElementById('sumNappies').textContent  = nappyCount || '0';
+  document.getElementById('sumSleepSub').textContent   = '';
+  document.getElementById('sumFeedsSub').textContent   = '';
+  document.getElementById('sumNappiesSub').textContent = '';
+}
+
+async function renderRangeSummary(period) {
+  document.querySelectorAll('.summary-chip').forEach(c => c.classList.add('loading'));
+  const days = period === '7d' ? 7 : 30;
+  const rangeStart = Date.now() - days * 86400000;
+
+  const { data } = await db.from('logs')
+    .select('type, duration_min, timestamp, start_time, end_time')
+    .eq('baby_id', currentBaby.id)
+    .gte('timestamp', rangeStart);
+
+  document.querySelectorAll('.summary-chip').forEach(c => c.classList.remove('loading'));
+
+  if (!data || !data.length) {
+    ['sumSleep','sumFeeds','sumNappies'].forEach(id => document.getElementById(id).textContent = '—');
+    ['sumSleepSub','sumFeedsSub','sumNappiesSub'].forEach(id => document.getElementById(id).textContent = 'avg/day');
+    return;
+  }
+
+  const daySet = new Set(data.map(r => dayKey(r.timestamp)));
+  const activeDays = Math.max(daySet.size, 1);
+
+  // sleep: build per-day map using splits, sum all days in range
+  const sleepByDay = {};
+  data.filter(r => r.type==='sleep').forEach(r => {
+    const entry = rowToEntry(r);
+    const split = splitSleepAcrossDays(entry);
+    Object.entries(split).forEach(([k,v]) => { sleepByDay[k] = (sleepByDay[k]||0)+v; });
+  });
+  const totalSleepMin = Object.values(sleepByDay).reduce((s,v)=>s+v,0);
+  const totalFeedMin  = data.filter(r=>r.type==='feed').reduce((s,r)=>s+(r.duration_min||0),0);
+  const totalNappies  = data.filter(r=>r.type==='nappy').length;
+
+  const avgSleepMin = Math.round(totalSleepMin / activeDays);
+  const avgFeedMin  = Math.round(totalFeedMin  / activeDays);
+  const avgNappies  = (totalNappies / activeDays).toFixed(1);
+
+  document.getElementById('sumSleep').textContent    = avgSleepMin ? formatDur(avgSleepMin) : '—';
+  document.getElementById('sumFeeds').textContent    = avgFeedMin  ? formatDur(avgFeedMin)  : '—';
+  document.getElementById('sumNappies').textContent  = avgNappies !== '0.0' ? avgNappies : '—';
+  ['sumSleepSub','sumFeedsSub','sumNappiesSub'].forEach(id => document.getElementById(id).textContent = 'avg/day');
+}
+
+// ── LOG SCREEN ──
+function openLogScreen(type) {
+  activeLogType   = type;
+  activeLogPeriod = activePeriod; // inherit current toggle state
+  const titles = { sleep: 'Sleep Log', feed: 'Feed Log', nappy: 'Nappy Log' };
+  document.getElementById('logScreenTitle').textContent = titles[type];
+  // sync toggle UI
+  ['today','7d','month'].forEach(p => {
+    const id = `logPeriod${p==='today'?'Today':p==='7d'?'7d':'Month'}`;
+    document.getElementById(id).classList.toggle('active', p === activeLogPeriod);
+  });
+  showScreen('logScreen');
+  loadLogScreen();
+}
+
+function closeLogScreen() {
+  showScreen('appScreen');
+}
+
+function setLogPeriod(period) {
+  activeLogPeriod = period;
+  ['today','7d','month'].forEach(p => {
+    const id = `logPeriod${p==='today'?'Today':p==='7d'?'7d':'Month'}`;
+    document.getElementById(id).classList.toggle('active', p === period);
+  });
+  loadLogScreen();
+}
+
+async function loadLogScreen() {
+  const content = document.getElementById('logContent');
+  content.innerHTML = '<div class="empty-log">Loading…</div>';
+
+  let data;
+  if (activeLogPeriod === 'today') {
+    const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
+    const res = await db.from('logs').select('*')
+      .eq('baby_id', currentBaby.id)
+      .eq('type', activeLogType)
+      .gte('timestamp', startOfDay.getTime())
+      .order('timestamp', { ascending: false });
+    data = res.data;
+  } else {
+    const days = activeLogPeriod === '7d' ? 7 : 30;
+    const rangeStart = Date.now() - days * 86400000;
+    const res = await db.from('logs').select('*')
+      .eq('baby_id', currentBaby.id)
+      .eq('type', activeLogType)
+      .gte('timestamp', rangeStart)
+      .order('timestamp', { ascending: false });
+    data = res.data;
+  }
+
+  if (!data || !data.length) {
+    content.innerHTML = '<div class="empty-log">No logs for this period</div>';
+    return;
+  }
+
+  const entries = data.map(rowToEntry);
+
+  // Group by start day (for sleep: use startTime or timestamp)
+  const groups = {};
+  entries.forEach(e => {
+    const ts  = (activeLogType === 'sleep' && e.startTime) ? e.startTime : e.timestamp;
+    const key = dayKey(ts);
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(e);
+  });
+
+  const sortedKeys = Object.keys(groups).sort((a,b) => b.localeCompare(a));
+
+  content.innerHTML = sortedKeys.map(key => {
+    const label = formatDayLabel(key);
+    const items = groups[key].map(e => renderLogItem(e)).join('');
+    return `<div class="day-group"><div class="day-group-label">${label}</div>${items}</div>`;
+  }).join('');
+}
+
+function renderLogItem(e) {
+  if (e.type === 'sleep') {
+    const start = e.startTime ? formatTime(e.startTime) : '—';
+    const end   = e.endTime   ? formatTime(e.endTime)   : '—';
+    return `<div class="log-item">
+      <div class="log-icon sleep">🌙</div>
+      <div class="log-info">
+        <div class="log-type">Sleep</div>
+        <div class="log-detail">${formatDur(e.durationMin)}</div>
+      </div>
+      <div class="log-time">
+        <div>${start}</div>
+        <div class="log-time-range">→ ${end}</div>
+      </div>
+    </div>`;
+  }
+  if (e.type === 'feed') {
+    const start = e.startTime ? formatTime(e.startTime) : formatTime(e.timestamp);
+    const end   = e.endTime   ? formatTime(e.endTime)   : '—';
+    return `<div class="log-item">
+      <div class="log-icon feed">🍼</div>
+      <div class="log-info">
+        <div class="log-type">Feed — ${e.side==='L'?'Left':'Right'}</div>
+        <div class="log-detail">${formatDur(e.durationMin)}</div>
+      </div>
+      <div class="log-time">
+        <div>${start}</div>
+        <div class="log-time-range">→ ${end}</div>
+      </div>
+    </div>`;
+  }
+  if (e.type === 'nappy') {
+    return `<div class="log-item">
+      <div class="log-icon nappy">🧷</div>
+      <div class="log-info">
+        <div class="log-type">Nappy</div>
+        <div class="log-detail">${e.nappyType}</div>
+      </div>
+      <div class="log-time">${formatTime(e.timestamp)}</div>
+    </div>`;
+  }
+  return '';
+}
+
+function formatDayLabel(key) {
+  const d    = new Date(key);
+  const now  = new Date();
+  const diff = Math.floor((now.setHours(0,0,0,0) - d.setHours(0,0,0,0)) / 86400000);
+  if (diff === 0) return 'Today';
+  if (diff === 1) return 'Yesterday';
+  return new Date(key).toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long' });
+}
+
+// ── EDIT MODAL (sleep / feed) ──
+function openEditModal(type, idx, minutes, startTimestamp, subtitle) {
   pendingEdit = { type, idx };
   editMinutes = Math.max(1, minutes || 1);
+
   document.getElementById('modalTitle').textContent = type==='sleep' ? 'Edit Sleep Duration' : 'Edit Feed Duration';
   document.getElementById('modalSub').textContent   = subtitle;
   document.getElementById('durDisplay').textContent = editMinutes;
   document.getElementById('durationSlider').value   = editMinutes;
+
+  // populate start time fields
+  const st = startTimestamp ? new Date(startTimestamp) : new Date(Date.now() - editMinutes * 60000);
+  document.getElementById('editStartDate').value = toDateString(st);
+  document.getElementById('editStartTime').value = toTimeString(st);
+
   document.getElementById('editModal').classList.add('visible');
+}
+
+function onStartTimeChange() {
+  // end time = start time + current duration; duration stays fixed
+  // just recalculate the derived endTime on save
+  // nothing to show here since we don't display end time in modal
+}
+
+function onSliderChange(val) {
+  editMinutes = parseInt(val);
+  document.getElementById('durDisplay').textContent = editMinutes;
 }
 
 function closeModal() {
@@ -674,52 +961,44 @@ function closeModal() {
 async function saveModal() {
   if (isSaving) return;
   isSaving = true;
-
   const btn = document.getElementById('saveModalBtn');
   btn.disabled = true; btn.textContent = 'Saving...';
 
   if (pendingEdit) {
     const entry = logs[pendingEdit.idx];
+
+    // Derive new startTime from date+time inputs
+    const dateVal = document.getElementById('editStartDate').value;
+    const timeVal = document.getElementById('editStartTime').value;
+    const newStartTime = dateVal && timeVal ? new Date(`${dateVal}T${timeVal}`).getTime() : entry.startTime;
+    const newEndTime   = newStartTime + editMinutes * 60000;
+
     entry.durationMin = editMinutes;
-    renderLogs(); updateSummary();
+    entry.startTime   = newStartTime;
+    entry.endTime     = newEndTime;
+    entry.timestamp   = newEndTime;
+
+    updateSummary();
 
     if (entry.dbId) {
       showSync(true);
-      await db.from('logs').update({ duration_min: editMinutes }).eq('id', entry.dbId);
+      await db.from('logs').update({
+        duration_min: editMinutes,
+        start_time:   newStartTime,
+        end_time:     newEndTime,
+        timestamp:    newEndTime,
+      }).eq('id', entry.dbId);
       showSync(false);
     } else {
       await saveToSupabase(entry);
     }
   }
 
-  // Close modal BEFORE resetting state
   document.getElementById('editModal').classList.remove('visible');
   pendingEdit = null;
   btn.disabled = false; btn.textContent = 'Save';
   isSaving = false;
-  showToast('Duration saved ✓');
-}
-
-// ── RENDER ──
-function renderLogs() {
-  const list = document.getElementById('logList');
-  const today = logs.filter(l => isToday(l.timestamp));
-  if (!today.length) { list.innerHTML = '<div class="empty-log">Nothing logged yet — tap above to start</div>'; return; }
-  list.innerHTML = today.map(log => {
-    const time = formatTime(log.timestamp);
-    if (log.type === 'sleep') return `<div class="log-item"><div class="log-icon sleep">🌙</div><div class="log-info"><div class="log-type">Sleep</div><div class="log-detail">${formatDur(log.durationMin)}</div></div><div class="log-time">${time}</div></div>`;
-    if (log.type === 'feed')  return `<div class="log-item"><div class="log-icon feed">🍼</div><div class="log-info"><div class="log-type">Feed — ${log.side==='L'?'Left':'Right'}</div><div class="log-detail">${formatDur(log.durationMin)}</div></div><div class="log-time">${time}</div></div>`;
-    if (log.type === 'nappy') return `<div class="log-item"><div class="log-icon nappy">🧷</div><div class="log-info"><div class="log-type">Nappy</div><div class="log-detail">${log.nappyType}</div></div><div class="log-time">${time}</div></div>`;
-    return '';
-  }).join('');
-}
-
-function updateSummary() {
-  const today = logs.filter(l => isToday(l.timestamp));
-  const sleepMin = today.filter(l=>l.type==='sleep').reduce((s,l)=>s+(l.durationMin||0),0);
-  document.getElementById('sumSleep').textContent   = sleepMin ? formatDur(sleepMin) : '—';
-  document.getElementById('sumFeeds').textContent   = today.filter(l=>l.type==='feed').length;
-  document.getElementById('sumNappies').textContent = today.filter(l=>l.type==='nappy').length;
+  showToast('Saved ✓');
 }
 
 // ── UTILS ──
@@ -728,6 +1007,8 @@ function formatSeconds(s) { return `${Math.floor(s/60)}:${(s%60).toString().padS
 function formatDur(min) { if (!min) return '—'; if (min<60) return `${min}m`; const h=Math.floor(min/60),m=min%60; return m?`${h}h ${m}m`:`${h}h`; }
 function formatTime(ts) { return new Date(ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); }
 function isToday(ts) { const d=new Date(ts),n=new Date(); return d.getDate()===n.getDate()&&d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear(); }
+function toDateString(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function toTimeString(d) { return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; }
 
 let toastTimeout;
 function showToast(msg) {
@@ -736,10 +1017,6 @@ function showToast(msg) {
   clearTimeout(toastTimeout);
   toastTimeout = setTimeout(() => t.classList.remove('show'), 2500);
 }
-
-// ── REALTIME: enable in Supabase ──
-// Make sure Replication is enabled for the logs table in Supabase:
-// Database → Replication → supabase_realtime publication → add 'logs' table
 
 init();
 </script>
